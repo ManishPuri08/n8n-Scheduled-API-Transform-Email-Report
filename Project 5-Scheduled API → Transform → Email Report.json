@@ -1,0 +1,164 @@
+{
+  "name": "Project 5-Scheduled API → Transform → Email Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -224,
+        -32
+      ],
+      "id": "d97d7b51-8ed9-44fd-ac7f-28331d0ded01",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com/todos/1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -80,
+        -32
+      ],
+      "id": "eb330d66-b92f-41e7-9a24-a21fad0b78d8",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8c1a7019-21fa-450b-b490-abca20863d5d",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "57ff2227-2804-47d8-9050-f4ac7be6663c",
+              "name": "userId",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        48,
+        -32
+      ],
+      "id": "35a0ae98-a697-4c3b-a7b3-459f1da5b911",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "convertToHtmlTable",
+        "options": {
+          "capitalize": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        -32
+      ],
+      "id": "293b3363-b1cd-476e-87d1-0ea28d735dbd",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "sendTo": "ManishPuri484@Gmail.com",
+        "subject": "Hello",
+        "message": "New info",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        -32
+      ],
+      "id": "7e320ec6-77c8-40c4-8523-aea29c8f0524",
+      "name": "Send a message",
+      "webhookId": "53e84278-3ae0-45d5-9139-5c25928a0546",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wfgcVj1FfW6dxMX9",
+          "name": "Gmail account 104"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1cf038a0-948d-49ef-94b7-f357331bfc10",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e99e0d1157c9445a053edb1d8bcb3c19869f806f2b50808813faa4f314de9dd4"
+  },
+  "nodeGroups": [],
+  "id": "QpsIfvCpGE4qvOTi",
+  "tags": []
+}
